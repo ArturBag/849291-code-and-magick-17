@@ -1,7 +1,10 @@
 'use strict';
 
+var CLOUD_WIDTH = 420;
+var CLOUD_HEIGHT = 270;
 var CLOUD_X = 100;
 var CLOUD_Y = 10;
+var SHADOW_GAP = 10;
 var BAR_WIDTH = 40;
 var BAR_HEIGHT = 150;
 var BAR_MARGIN = 50;
@@ -20,11 +23,14 @@ var getMaxElement = function (arr) {
   return maxElement;
 };
 
+var renderCloud = function (ctx, x, y, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
+};
+
 window.renderStatistics = function (ctx, names, times) {
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  ctx.fillRect(110, 20, 420, 270);
-  ctx.fillStyle = 'white';
-  ctx.fillRect(100, 10, 420, 270);
+  renderCloud(ctx, CLOUD_X + SHADOW_GAP, CLOUD_Y + SHADOW_GAP, 'rgba(0, 0, 0, 0.7)');
+  renderCloud(ctx, CLOUD_X, CLOUD_Y, 'white');
 
   ctx.fillStyle = 'black';
   ctx.font = 'PT Mono 16px';
@@ -38,14 +44,15 @@ window.renderStatistics = function (ctx, names, times) {
   for (var i = 0; i < names.length; i++) {
     var currentHeight = BAR_HEIGHT * times[i] / maxTime;
     var verticalMargin = BAR_HEIGHT - currentHeight;
+    var CURRENT_BAR_X = CLOUD_X + BAR_MARGIN + BAR_MARGIN * i + BAR_WIDTH * i;
     var randomColor = Math.floor(Math.random() * (255 - 0) + 0);
-    ctx.fillStyle = 'rgb(0, 0,' + randomColor + ')\'';
+    ctx.fillStyle = 'rgb(0, 0,' + randomColor + ')';
     if (names[i] === 'Вы') {
       ctx.fillStyle = BAR_MY_COLOR;
     }
-    ctx.fillRect(CLOUD_X + BAR_MARGIN + BAR_MARGIN * i + BAR_WIDTH * i, CLOUD_Y + BAR_START_POINT + verticalMargin, BAR_WIDTH, currentHeight);
+    ctx.fillRect(CURRENT_BAR_X, CLOUD_Y + BAR_START_POINT + verticalMargin, BAR_WIDTH, currentHeight);
     ctx.fillStyle = TEXT_COLOR;
-    ctx.fillText(Math.round(times[i]), CLOUD_X + BAR_MARGIN + BAR_MARGIN * i + BAR_WIDTH * i, CLOUD_Y + TEXT_GAP_UP + verticalMargin);
-    ctx.fillText(names[i], CLOUD_X + BAR_MARGIN + BAR_MARGIN * i + BAR_WIDTH * i, CLOUD_Y + BAR_HEIGHT + TEXT_GAP_BOTTOM);
+    ctx.fillText(Math.round(times[i]), CURRENT_BAR_X, CLOUD_Y + TEXT_GAP_UP + verticalMargin);
+    ctx.fillText(names[i], CURRENT_BAR_X, CLOUD_Y + BAR_HEIGHT + TEXT_GAP_BOTTOM);
   }
 };
