@@ -1,8 +1,7 @@
 'use strict';
 
-var userDialog = document.querySelector('.setup');
-// var wizardsArrayLength = 4;
 var WIZARD_SUM = 4;
+var userDialog = document.querySelector('.setup');
 var wizardsArray = [];
 var fragment = document.createDocumentFragment();
 var WizardsData = {
@@ -22,22 +21,27 @@ var getRandomNumber = function (param) {
 };
 
 var renderWizard = function (wizardInfo, newWizard) {
-  newWizard.push({
-    name: wizardInfo.NAMES[getRandomNumber(wizardInfo.NAMES.length - 1)],
-    lastName: wizardInfo.LAST_NAMES[getRandomNumber(wizardInfo.LAST_NAMES.length - 1)],
-    coatColor: wizardInfo.COAT_COLOR[getRandomNumber(wizardInfo.COAT_COLOR.length - 1)],
-    eyesColor: wizardInfo.EYES_COLOR[getRandomNumber(wizardInfo.EYES_COLOR.length - 1)]
-  });
 
-  var wizardElement = similarWizardTemplate.cloneNode(true);
-  wizardElement.querySelector('.setup-similar-label').textContent = wizardsArray[i].name + ' ' + wizardsArray[i].lastName;
-  wizardElement.querySelector('.wizard-coat').style.fill = wizardsArray[i].coatColor;
-  wizardElement.querySelector('.wizard-eyes').style.fill = wizardsArray[i].eyesColor;
-  fragment.appendChild(wizardElement);
-  similarListElement.appendChild(fragment);
+  for (var i = 0; i < WIZARD_SUM; i++) {
+    newWizard.push({
+      name: wizardInfo.NAMES[getRandomNumber(wizardInfo.NAMES.length - 1)],
+      lastName: wizardInfo.LAST_NAMES[getRandomNumber(wizardInfo.LAST_NAMES.length - 1)],
+      coatColor: wizardInfo.COAT_COLOR[getRandomNumber(wizardInfo.COAT_COLOR.length - 1)],
+      eyesColor: wizardInfo.EYES_COLOR[getRandomNumber(wizardInfo.EYES_COLOR.length - 1)]
+    });
 
+    var showWizard = function (wizardsElem) {
+
+      var wizardElement = similarWizardTemplate.cloneNode(true);
+      wizardElement.querySelector('.setup-similar-label').textContent = wizardsElem[i].name + ' ' + wizardsElem[i].lastName;
+      wizardElement.querySelector('.wizard-coat').style.fill = wizardsElem[i].coatColor;
+      wizardElement.querySelector('.wizard-eyes').style.fill = wizardsElem[i].eyesColor;
+      fragment.appendChild(wizardElement);
+      similarListElement.appendChild(fragment);
+
+    };
+    showWizard(wizardsArray);
+  }
 };
 
-for (var i = 0; i < WIZARD_SUM; i++) {
-  renderWizard(WizardsData, wizardsArray);
-}
+renderWizard(WizardsData, wizardsArray);
