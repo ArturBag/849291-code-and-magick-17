@@ -64,7 +64,7 @@
     getRandomNumber: function (param) {
       return Math.round(Math.random() * param);
     },
-    onPopupEscPress: function (evt, buttonCode, popupInput) {
+    onPopupEscPress: function (buttonCode, popupInput, evt) {
       if (evt.buttonCode === buttonCode.ESC_KEYCODE) {
         if (popupInput.classList.contains('infocus')) {
           evt.preventDefault();
@@ -75,11 +75,11 @@
     },
     openPopup: function (popup, popupClass) {
       popup.classList.remove(popupClass);
-      document.addEventListener('keydown', window.dialog.onPopupEscPress(KeyCode, userNameInput));
+      document.addEventListener('keydown', window.dialog.onPopupEscPress.bind(null, KeyCode, userNameInput));
     },
     closePopup: function (popup, popupClass, styleTop, styleLeft) {
       popup.classList.add(popupClass);
-      document.removeEventListener('keydown', window.dialog.onPopupEscPress(KeyCode, userNameInput));
+      document.removeEventListener('keydown', window.dialog.onPopupEscPress.bind(null, KeyCode, userNameInput));
       popup.style.top = styleTop;
       popup.style.left = styleLeft;
     }
