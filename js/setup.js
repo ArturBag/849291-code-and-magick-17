@@ -2,9 +2,9 @@
 (function () {
 
   var WIZARD_SUM = 4;
-  window.setup = document.querySelector('.setup');
+  var setup = document.querySelector('.setup');
   var setupOpen = document.querySelector('.setup-open');
-  var setupClose = window.setup.querySelector('.setup-close');
+  var setupClose = setup.querySelector('.setup-close');
   var form = document.querySelector('.setup-wizard-form');
   var userNameInput = form.querySelector('.setup-user-name');
   var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
@@ -82,6 +82,14 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
+  var addClassList = function (element, className) {
+    element.classList.add(className);
+  };
+
+  var removeClassList = function (element, className) {
+    element.classList.remove(className);
+  };
+
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === KeyCode.ESC_KEYCODE) {
       if (userNameInput.classList.contains('infocus')) {
@@ -101,15 +109,15 @@
   });
 
   var openPopup = function () {
-    window.setup.classList.remove('hidden');
+    setup.classList.remove('hidden');
     document.addEventListener('keydown', onPopupEscPress);
   };
 
   var closePopup = function () {
-    window.setup.classList.add('hidden');
+    setup.classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
-    window.setup.style.top = '80px';
-    window.setup.style.left = '50%';
+    setup.style.top = '80px';
+    setup.style.left = '50%';
   };
 
   setupOpen.addEventListener('click', function () {
@@ -132,6 +140,11 @@
     }
   });
 
+  window.setupModule = {
+    setup: setup,
+    addClassList: addClassList,
+    removeClassList: removeClassList
+  };
 
   window.backend.load(onSuccess, onError);
 

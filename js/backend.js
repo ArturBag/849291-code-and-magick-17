@@ -2,6 +2,7 @@
 (function () {
 
   var URL = 'https://js.dump.academy/code-and-magick/data';
+  var OK_STATUS = 200;
 
 
   var ajaxSendData = function (onLoad, onError, methodType, data) {
@@ -9,7 +10,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === OK_STATUS) {
         onLoad(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -36,12 +37,10 @@
 
   var save = function (onLoad, onError, data) {
     ajaxSendData(onLoad, onError, 'POST', data);
-    window.setup.classList.add('hidden');
-
+    window.setupModule.addClassList(window.setupModule.setup, 'hidden');
   };
 
   window.backend = {
-    ajaxSendData: ajaxSendData,
     load: load,
     save: save
   };
