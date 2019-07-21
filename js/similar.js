@@ -8,12 +8,6 @@
   var coatColor = '';
   var eyesColor = '';
   var inputCoatColor = document.querySelector('input[name=coat-color]');
-  // var inputEyesColor = document.querySelector('input[name=eyes-color]');
-
-  // var getRandomElement = function (array) {
-  //   var randomElementIndex = Math.floor(Math.random() * array.length);
-  //   return array[randomElementIndex];
-  // };
 
   var getRank = function (wizard) {
     var rank = 0;
@@ -24,22 +18,8 @@
     if (wizard.colorEyes === eyesColor) {
       rank += 1;
     }
-
-    // console.log(wizard.colorCoat, coatColor, rank);
-    //console.log(wizard.colorEyes, eyesColor);
-
     return rank;
   };
-
-  // var namesComparator = function (left, right) {
-  //   if (left > right) {
-  //     return 1;
-  //   } else if (left < right) {
-  //     return -1;
-  //   } else {
-  //     return 0;
-  //   }
-  // }
 
   var updateWizards = function () {
     window.setupModule.renderWizard(wizardsData.slice().sort(function (left, right) {
@@ -47,29 +27,21 @@
       if (rankDiff === 0) {
         rankDiff = wizardsData.indexOf(left) - wizardsData.indexOf(right);
       }
-      console.log(rankDiff)
       return rankDiff;
     }));
-  }
+  };
 
-  wizardCoatElement.addEventListener('click', function (evt) {
-
-    window.setupModule.changeWizardColor(wizardCoatElement, wizardsData[window.setupModule.getRandomNumber(wizardsData.length - 1)].colorCoat, inputCoatColor);
-    // coatColor = evt.currentTarget.style.fill; // getRandomElement(wizardsData).colorCoat;
-    // console.log("coatColor", event.currentTarget.style.fill)
-    // window.setupModule.changeWizardColor(wizardCoatElement, coatColor, inputCoatColor);
+  wizardCoatElement.addEventListener('click', function () {
     coatColor = wizardsData[window.setupModule.getRandomNumber(wizardsData.length - 1)].colorCoat;
-    console.log(coatColor)
-
-    updateWizards();
+    window.setupModule.changeWizardColor(wizardCoatElement, coatColor, inputCoatColor);
+    window.debounce(updateWizards);
   });
 
 
-  wizardEyesElement.addEventListener('click', function (evt) {
-    //window.changeWizardColor(wizardCoat, wizardData[getRandomNumber(wizardData.length - 1)].colorCoat, inputCoatColor);
-    eyesColor = evt.currentTarget.style.fill;
-    // window.setupModule.changeWizardColor(eyesColor)
-    updateWizards();
+  wizardEyesElement.addEventListener('click', function () {
+    eyesColor = wizardsData[window.setupModule.getRandomNumber(wizardsData.length - 1)].colorEyes;
+    window.setupModule.changeWizardColor(wizardEyesElement, eyesColor, inputCoatColor);
+    window.debounce(updateWizards);
   });
 
 
